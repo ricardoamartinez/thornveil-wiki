@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thornveil Wiki</title>
+<meta name="description" content="The encyclopedia of everything in Thornveil: items, weapons, creatures, biomes, spells, places and the story, written from the game itself.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d110d; --panel: #151b15; --panel2: #1b231b; --line: #2a352a;
+  --text: #d8d4c8; --dim: #9a968c; --link: #8cc8ff; --head: #f0d890; --brand: #9fe09a; --bad: #ff9a80;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #f4f1e8; --panel: #ebe6d8; --panel2: #e2dccb; --line: #cfc7b2;
+    --text: #23241f; --dim: #5f5b50; --link: #1f5fa8; --head: #7a5a00; --brand: #2e7a2a; --bad: #b0391c;
+  }
+}
+:root[data-theme="light"] {
+  --bg: #f4f1e8; --panel: #ebe6d8; --panel2: #e2dccb; --line: #cfc7b2;
+  --text: #23241f; --dim: #5f5b50; --link: #1f5fa8; --head: #7a5a00; --brand: #2e7a2a; --bad: #b0391c;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.6 Inter, system-ui, sans-serif; }
+a { color: var(--link); text-decoration: none; cursor: pointer; }
+a:hover { text-decoration: underline; }
+.wrap { display: grid; grid-template-columns: 250px 1fr; min-height: 100vh; }
+nav { background: var(--panel); border-right: 1px solid var(--line); padding: 18px 16px; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+.logo { font-family: Silkscreen, monospace; font-size: 26px; line-height: 1; color: var(--brand); }
+.logo small { display: block; font-size: 16px; color: var(--head); margin-top: 4px; }
+.tag { color: var(--dim); font-size: 12px; margin: 6px 0 18px; }
+nav h4 { font-family: Silkscreen, monospace; font-weight: 400; color: var(--dim); font-size: 12px; letter-spacing: .08em; margin: 18px 0 6px; }
+nav a { display: block; padding: 2px 0; font-size: 14px; }
+main { padding: 18px 32px 60px; min-width: 0; overflow-wrap: anywhere; }
+.bar { display: flex; gap: 10px; align-items: center; position: relative; margin-bottom: 18px; }
+#q { flex: 1; max-width: 620px; background: var(--panel); border: 1px solid var(--line); color: var(--text); padding: 9px 12px; font: inherit; border-radius: 4px; }
+#res { position: absolute; top: 42px; left: 0; width: min(620px, 100%); background: var(--panel); border: 1px solid var(--line); border-radius: 4px; z-index: 5; max-height: 60vh; overflow-y: auto; }
+#res a { display: flex; justify-content: space-between; gap: 12px; padding: 7px 12px; border-bottom: 1px solid var(--line); }
+#res a span { color: var(--dim); font-size: 12px; white-space: nowrap; }
+#res a.on { background: var(--panel2); }
+.theme { background: none; border: 1px solid var(--line); color: var(--dim); border-radius: 4px; padding: 7px 10px; cursor: pointer; font: inherit; font-size: 13px; }
+h1 { font-family: Silkscreen, monospace; font-weight: 400; font-size: 36px; line-height: 1.1; margin: 8px 0 2px; color: var(--text); }
+.sub { color: var(--dim); font-size: 13px; margin-bottom: 18px; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+h2 { font-family: Silkscreen, monospace; font-weight: 400; color: var(--head); font-size: 20px; margin: 26px 0 8px; border-bottom: 1px solid var(--line); padding-bottom: 4px; }
+.page { display: flow-root; }
+.info { float: right; width: 320px; margin: 0 0 16px 24px; background: var(--panel); border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+.info .ih { background: var(--panel2); text-align: center; padding: 8px; font-weight: 600; }
+.info table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.info td { padding: 5px 10px; border-top: 1px solid var(--line); vertical-align: top; }
+.info td:first-child { color: var(--dim); width: 40%; }
+p { margin: 0 0 10px; }
+ul { margin: 0 0 10px; padding-left: 22px; }
+.grid { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 12px; }
+.grid a { background: var(--panel); border: 1px solid var(--line); border-radius: 4px; padding: 4px 9px; font-size: 13.5px; }
+.grid a:hover { background: var(--panel2); text-decoration: none; }
+.more { background: none; border: 1px dashed var(--line); color: var(--dim); border-radius: 4px; padding: 4px 9px; cursor: pointer; font: inherit; font-size: 13px; }
+.tbl { overflow-x: auto; margin: 4px 0 14px; }
+.tbl table { border-collapse: collapse; font-size: 13.5px; min-width: 60%; }
+.tbl th { text-align: left; background: var(--panel2); padding: 6px 10px; font-weight: 600; }
+.tbl td { padding: 5px 10px; border-top: 1px solid var(--line); }
+.note { border-left: 3px solid var(--bad); background: var(--panel); color: var(--bad); padding: 7px 12px; margin: 6px 0 12px; font-size: 13.5px; }
+.navbox { margin-top: 40px; border: 1px solid var(--line); border-radius: 4px; background: var(--panel); padding: 10px 14px; font-size: 13px; clear: both; }
+.navbox b { color: var(--dim); font-weight: 600; margin-right: 8px; }
+.navbox a { margin-right: 10px; display: inline-block; }
+.loading { color: var(--dim); padding: 40px 0; }
+.sep { color: var(--dim); }
+.menu { display: none; }
+@media (max-width: 860px) {
+  .wrap { grid-template-columns: minmax(0, 1fr); }
+  #q { min-width: 0; }
+  nav { position: static; height: auto; display: none; border-right: 0; border-bottom: 1px solid var(--line); }
+  nav.open { display: block; }
+  .menu { display: inline-block; }
+  main { padding: 14px 16px 50px; }
+  .info { float: none; width: 100%; margin: 0 0 16px; }
+  h1 { font-size: 28px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav id="nav">
+    <a class="logo" href="#Main">THORNVEIL<small>WIKI</small></a>
+    <div class="tag">the encyclopedia</div>
+    <h4>NAVIGATION</h4>
+    <div id="cats"></div>
+    <h4>GUIDES</h4>
+    <div id="guides"></div>
+  </nav>
+  <main>
+    <div class="bar">
+      <button class="theme menu" id="menu" aria-label="Menu">☰</button>
+      <input id="q" placeholder="Search the Thornveil Wiki" autocomplete="off" aria-label="Search">
+      <div id="res" hidden></div>
+      <button class="theme" id="theme" title="Light / dark">◐</button>
+    </div>
+    <div id="page" class="loading">Loading the wiki…</div>
+  </main>
+</div>
+<script>
+let P = {}, index = [];
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const href = k => '#' + encodeURIComponent(k);
+const link = (label, k) => P[k] ? `<a href="${href(k)}">${esc(label)}</a>` : esc(label);
+// (the game spaces a run of links apart with blanks; here they get a dot between)
+const spans = v => v.map((x, i) => typeof x !== 'string' ? link(x[0], x[1]) : (/^\s{2,}$/.test(x) && i > 0 && i < v.length - 1 ? '<span class="sep"> · </span>' : esc(x))).join('');
+const GRID_MAX = 300;
+
+function block(b) {
+  switch (b[0]) {
+    case 'p': return `<p>${spans(b[1])}</p>`;
+    case 'b': return `<ul><li>${spans(b[1])}</li></ul>`;
+    case 'n': return `<div class="note">${esc(b[1])}</div>`;
+    case 'g': {
+      const tiles = b[1], first = tiles.slice(0, GRID_MAX).map(t => link(t[0], t[1])).join('');
+      const rest = tiles.length > GRID_MAX ? `<button class="more" data-more='${esc(JSON.stringify(tiles.slice(GRID_MAX)))}'>show all ${tiles.length}</button>` : '';
+      return `<div class="grid">${first}${rest}</div>`;
+    }
+    case 't': return `<div class="tbl"><table><tr>${b[1].map(h => `<th>${esc(h)}</th>`).join('')}</tr>${b[2].map(r => `<tr>${r.map(c => `<td>${spans(c)}</td>`).join('')}</tr>`).join('')}</table></div>`;
+  }
+  return '';
+}
+
+function show(k) {
+  const pg = P[k] || P['Main'];
+  if (!P[k]) k = 'Main';
+  document.title = pg.t === 'Main Page' ? 'Thornveil Wiki' : `${pg.t} - Thornveil Wiki`;
+  let h = `<h1>${esc(pg.t)}</h1><div class="sub">From the Thornveil Wiki${pg.k ? ' &nbsp;-&nbsp; ' + esc(pg.k) : ''}</div><div class="page">`;
+  if (pg.i.length) h += `<aside class="info"><div class="ih">${esc(pg.t)}</div><table>${pg.i.map(([n, v]) => `<tr><td>${esc(n)}</td><td>${spans(v)}</td></tr>`).join('')}</table></aside>`;
+  for (const [head, blocks] of pg.s) {
+    if (head) h += `<h2>${esc(head)}</h2>`;
+    h += blocks.map(block).join('');
+  }
+  h += `</div><div class="navbox"><b>Thornveil</b>${cats.map(c => link(P[c].t, c)).join('')}</div>`;
+  $('#page').className = '';
+  $('#page').innerHTML = h;
+  window.scrollTo(0, 0);
+  $('#nav').classList.remove('open');
+}
+
+let cats = [];
+function route() { show(decodeURIComponent(location.hash.slice(1)) || 'Main'); }
+
+document.addEventListener('click', e => {
+  const m = e.target.closest('.more');
+  if (m) { m.outerHTML = JSON.parse(m.dataset.more).map(t => link(t[0], t[1])).join(''); }
+});
+
+// search: names that start with the words first, then names that hold them
+let sel = 0, hits = [];
+function search() {
+  const q = $('#q').value.trim().toLowerCase();
+  const box = $('#res');
+  if (!q) { box.hidden = true; return; }
+  const starts = [], inside = [], seen = new Set();
+  for (const [n, k, kind] of index) {
+    if (seen.has(k)) continue;
+    const l = n.toLowerCase();
+    if (l.startsWith(q)) { starts.push([n, k, kind]); seen.add(k); }
+    else if (l.includes(q)) { inside.push([n, k, kind]); seen.add(k); }
+  }
+  starts.sort((a, b) => a[0].length - b[0].length);
+  hits = starts.concat(inside).slice(0, 20);
+  sel = 0;
+  box.innerHTML = hits.length ? hits.map((h, i) => `<a href="${href(h[1])}" class="${i === sel ? 'on' : ''}">${esc(h[0])}<span>${esc(h[2])}</span></a>`).join('') : '<a>No page by that name</a>';
+  box.hidden = false;
+}
+$('#q').addEventListener('input', search);
+$('#q').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && hits[sel]) { location.hash = href(hits[sel][1]).slice(1); $('#q').value = ''; $('#res').hidden = true; }
+  else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+    e.preventDefault(); sel = (sel + (e.key === 'ArrowDown' ? 1 : hits.length - 1)) % Math.max(hits.length, 1);
+    [...$('#res').children].forEach((a, i) => a.classList.toggle('on', i === sel));
+  } else if (e.key === 'Escape') { $('#q').value = ''; $('#res').hidden = true; }
+});
+$('#res').addEventListener('click', () => { $('#q').value = ''; $('#res').hidden = true; });
+document.addEventListener('keydown', e => { if (e.key === '/' && document.activeElement !== $('#q')) { e.preventDefault(); $('#q').focus(); } });
+$('#menu').onclick = () => $('#nav').classList.toggle('open');
+
+// light / dark, remembered on this device
+try { const t = localStorage.getItem('tvw-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+$('#theme').onclick = () => {
+  const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+  const cur = document.documentElement.dataset.theme || (dark ? 'dark' : 'light');
+  const next = cur === 'dark' ? 'light' : 'dark';
+  document.documentElement.dataset.theme = next;
+  try { localStorage.setItem('tvw-theme', next); } catch (e) {}
+};
+
+fetch('pages.json').then(r => r.json()).then(d => {
+  P = d.pages;
+  for (const k in P) index.push([P[k].t, k, P[k].k || '']);
+  cats = Object.keys(P).filter(k => k.startsWith('Cat('));
+  const main = P['Main'];
+  const portals = main.s.find(s => s[0] === 'Portals');
+  const order = portals ? portals[1][0][1].map(t => t[1]) : cats;
+  cats = order.filter(k => P[k]);
+  $('#cats').innerHTML = `<a href="#Main">Main page</a>` + cats.map(c => link(P[c].t, c)).join('');
+  $('#guides').innerHTML = Object.keys(P).filter(k => k.startsWith('Guide(') || k.startsWith('Table(')).map(k => link(P[k].t, k)).join('');
+  addEventListener('hashchange', route);
+  route();
+}).catch(() => { $('#page').textContent = 'The wiki could not be loaded.'; });
+</script>
+</body>
+</html>
